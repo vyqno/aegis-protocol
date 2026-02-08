@@ -1,10 +1,14 @@
 {
-  "groqModel": "llama-3.3-70b-versatile",
   "evms": [
     {
       "vaultAddress": "0x0000000000000000000000000000000000000000",
+      "worldIdGateAddress": "0x0000000000000000000000000000000000000000",
       "chainSelectorName": "ethereum-testnet-sepolia",
       "gasLimit": "500000"
     }
-  ]
+  ],
+  "worldId": {
+    "appId": "app_staging_aegis",
+    "actionId": "AEGIS-VERIFY-V1"
+  }
 }
