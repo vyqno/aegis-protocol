@@ -1,11 +1,15 @@
-clear
 {
   "groqModel": "llama-3.3-70b-versatile",
   "evms": [
     {
       "vaultAddress": "0x0000000000000000000000000000000000000000",
+      "riskRegistryAddress": "0x0000000000000000000000000000000000000000",
       "chainSelectorName": "ethereum-testnet-sepolia",
       "gasLimit": "500000"
     }
-  ]
+  ],
+  "thresholds": {
+    "healthFactorMin": "1500000000000000000",
+    "riskScoreMax": 8000
+  }
 }
