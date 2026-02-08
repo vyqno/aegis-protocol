@@ -1,0 +1,8 @@
+account_id: ""
+project_slug: "aegis-protocol"
+
+# Virtual TestNet configuration
+# Create at: https://dashboard.tenderly.co/
+# 1. Create project "aegis-protocol"
+# 2. Create Virtual TestNet forking Sepolia (chain ID 11155111)
+# 3. Copy RPC URL to .env as TENDERLY_VIRTUAL_TESTNET_RPC

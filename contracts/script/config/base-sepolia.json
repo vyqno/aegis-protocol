@@ -1,0 +1,10 @@
+{
+  "network": "base-sepolia",
+  "chainId": 84532,
+  "ccipChainSelector": "10344971235874465080",
+  "forwarder": "0x82300bd7c3958625581cc2F77bC6464dcEcDF3e5",
+  "ccipRouter": "0xD3b06cEbF099CE7DA4AcCf578aaebFDBd6e88a93",
+  "deployed": {
+    "strategyRouter": ""
+  }
+}

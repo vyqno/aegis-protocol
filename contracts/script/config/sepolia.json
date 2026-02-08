@@ -1,0 +1,22 @@
+{
+  "network": "ethereum-sepolia",
+  "chainId": 11155111,
+  "ccipChainSelector": "16015286601757825753",
+  "forwarder": "0x15fC6ae953E024d975e77382eEeC56A9101f9F88",
+  "ccipRouter": "0x0BF3dE8c5D3e8A2B34D2BEeB17ABfCeBaf363A59",
+  "deployed": {
+    "aegisVault": "",
+    "riskRegistry": "",
+    "strategyRouter": "",
+    "worldIdGate": "",
+    "mockWorldId": ""
+  },
+  "workflows": {
+    "yieldScanner": { "id": "", "prefix": "0x01" },
+    "riskSentinel": { "id": "", "prefix": "0x02" },
+    "vaultManager": { "id": "", "prefix": "0x03" }
+  },
+  "protocols": {
+    "aaveV3Pool": "0xBe5E5728dB7F0e23E20b87e3737445796b272484"
+  }
+}
