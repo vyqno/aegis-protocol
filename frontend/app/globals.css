@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --aegis-dark: #0a0e1a;
+  --aegis-card: #111827;
+  --aegis-border: #1f2937;
+  --aegis-accent: #3b82f6;
+}
+
+body {
+  background: var(--aegis-dark);
+  color: #e5e7eb;
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-aegis-card/80 backdrop-blur-sm border border-aegis-border rounded-xl;
+  }
+}
