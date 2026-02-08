@@ -1,0 +1,20 @@
+# ==========================================================================
+# AEGIS Protocol - Vault Manager Workflow
+# Trigger: HTTP (on-demand via API call)
+# ==========================================================================
+staging-settings:
+  user-workflow:
+    workflow-name: "aegis-vault-manager-staging"
+  workflow-artifacts:
+    workflow-path: "./main.ts"
+    config-path: "./config.staging.json"
+    secrets-path: "../secrets.yaml"
+
+# ==========================================================================
+production-settings:
+  user-workflow:
+    workflow-name: "aegis-vault-manager-production"
+  workflow-artifacts:
+    workflow-path: "./main.ts"
+    config-path: "./config.production.json"
+    secrets-path: "../secrets.yaml"

@@ -1,0 +1,17 @@
+{
+  "name": "aegis-protocol",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI-Enhanced Guardian for Intelligent Staking - Chainlink CRE Hackathon 2026",
+  "scripts": {
+    "build:contracts": "cd contracts && forge build",
+    "test:contracts": "cd contracts && forge test",
+    "build:frontend": "cd frontend && pnpm build",
+    "dev:frontend": "cd frontend && pnpm dev",
+    "lint:frontend": "cd frontend && pnpm lint"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

@@ -1,0 +1,5 @@
+packages:
+  - "yield-scanner"
+  - "risk-sentinel"
+  - "vault-manager"
+  - "frontend"

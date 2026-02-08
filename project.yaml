@@ -1,0 +1,17 @@
+# ==========================================================================
+# AEGIS Protocol - CRE Project Configuration
+# ==========================================================================
+staging-settings:
+  rpcs:
+    - chain-name: ethereum-testnet-sepolia
+      url: https://ethereum-sepolia-rpc.publicnode.com
+    - chain-name: base-testnet-sepolia
+      url: https://base-sepolia-rpc.publicnode.com
+
+# ==========================================================================
+production-settings:
+  rpcs:
+    - chain-name: ethereum-testnet-sepolia
+      url: https://ethereum-sepolia-rpc.publicnode.com
+    - chain-name: base-testnet-sepolia
+      url: https://base-sepolia-rpc.publicnode.com
