@@ -83,7 +83,7 @@ abstract contract ReceiverTemplate is IReceiver, IERC165, Ownable {
   function onReport(
     bytes calldata metadata,
     bytes calldata report
-  ) external override {
+  ) public virtual override {
     // Security Check 1: Verify caller is the trusted Chainlink Forwarder (if configured)
     if (s_forwarderAddress != address(0) && msg.sender != s_forwarderAddress) {
       revert InvalidSender(msg.sender, s_forwarderAddress);
@@ -132,7 +132,7 @@ abstract contract ReceiverTemplate is IReceiver, IERC165, Ownable {
   ///      Production contracts SHOULD override this function to prevent address(0).
   function setForwarderAddress(
     address _forwarder
-  ) external virtual onlyOwner {
+  ) public virtual onlyOwner {
     address previousForwarder = s_forwarderAddress;
 
     // Emit warning if disabling forwarder check
