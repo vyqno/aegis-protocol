@@ -1,5 +1,7 @@
 {
   "groqModel": "llama-3.3-70b-versatile",
+  "schedule": "0 */5 * * * *",
+  "rebalanceThresholdBps": 100,
   "evms": [
     {
       "vaultAddress": "0x0000000000000000000000000000000000000000",
