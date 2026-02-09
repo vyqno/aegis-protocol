@@ -50,9 +50,9 @@ test-integration:
 test-invariant:
 	$(FORGE) test --match-path "test/invariant/*" -vvv
 
-## Deployment verification tests
+## Deployment verification tests (requires Anvil running + prior deploy)
 test-deployment:
-	$(FORGE) test --match-path "test/deployment/*" -vvv
+	$(FORGE) test --match-path "test/deployment/*" --fork-url $(ANVIL_RPC) -vvv
 
 ## End-to-end tests (CRE workflow sim + production lifecycle + Anvil)
 test-e2e:
@@ -94,15 +94,17 @@ test-production:
 #  ANVIL DEPLOYMENT + TEST
 # ================================================================
 
-## Start Anvil, deploy, and run tests against live node
+## Start Anvil, deploy, and run tests against LIVE deployed contracts
 anvil-test:
 	@echo "Starting Anvil..."
 	@$(ANVIL) --port $(ANVIL_PORT) --block-time 1 &
 	@sleep 2
 	@echo "Deploying to Anvil..."
-	$(FORGE) script script/DeployAnvil.s.sol --rpc-url $(ANVIL_RPC) --broadcast || true
-	@echo "Running Anvil integration tests..."
-	$(FORGE) test --match-contract AnvilDeployAndTestTest -vvv
+	$(FORGE) script script/DeployAnvil.s.sol --tc DeployAnvil --rpc-url $(ANVIL_RPC) --broadcast
+	@echo "Running deployment verification against live contracts..."
+	$(FORGE) test --match-path "test/deployment/*" --fork-url $(ANVIL_RPC) -vvv
+	@echo "Running Anvil integration tests against live contracts..."
+	$(FORGE) test --match-contract AnvilDeployAndTestTest --fork-url $(ANVIL_RPC) -vvv
 	@echo "Stopping Anvil..."
 	@pkill -f "anvil --port $(ANVIL_PORT)" || true
 
