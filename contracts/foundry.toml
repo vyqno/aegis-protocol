@@ -6,12 +6,13 @@ solc_version = "0.8.24"
 optimizer = true
 optimizer_runs = 200
 via_ir = false
-ffi = false
+ffi = true
 
 # Remappings
 remappings = [
     "@openzeppelin/=lib/openzeppelin-contracts/",
     "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
+    "@foundry-devops/=lib/foundry-devops/src/",
 ]
 
 [profile.default.fuzz]

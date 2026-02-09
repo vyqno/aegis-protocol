@@ -1,0 +1,3 @@
+[submodule "contracts/lib/foundry-devops"]
+	path = contracts/lib/foundry-devops
+	url = https://github.com/Cyfrin/foundry-devops
