@@ -19,7 +19,7 @@ const TIME_RANGES = ["1H", "6H", "24H", "7D"] as const;
 export function YieldChart() {
   const [timeRange, setTimeRange] =
     useState<(typeof TIME_RANGES)[number]>("24H");
-  const { data } = useYieldHistory(timeRange);
+  const { data, isLoading, isEmpty } = useYieldHistory(timeRange);
 
   const chartData = data.map((d) => ({
     time: new Date(d.timestamp).toLocaleTimeString([], {
@@ -53,6 +53,18 @@ export function YieldChart() {
       </div>
 
       <div className="h-64">
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full text-gray-500">
+            Loading yield data...
+          </div>
+        ) : isEmpty ? (
+          <div className="flex flex-col items-center justify-center h-full text-center">
+            <p className="text-gray-500 mb-2">No yield data available yet</p>
+            <p className="text-xs text-gray-600">
+              Yield reports will appear after CRE workflows are deployed
+            </p>
+          </div>
+        ) : (
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
@@ -109,6 +121,7 @@ export function YieldChart() {
             />
           </LineChart>
         </ResponsiveContainer>
+        )}
       </div>
     </div>
   );

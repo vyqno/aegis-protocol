@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useContractEvents } from "thirdweb/react";
+import { getVaultContract } from "@/lib/contracts";
 
-// Mock yield history data for demo (replaced by real event indexing after deployment)
 export interface YieldDataPoint {
   timestamp: number;
   vaultYield: number;
@@ -10,32 +10,60 @@ export interface YieldDataPoint {
   morphoRate: number;
 }
 
-function generateMockData(hours: number): YieldDataPoint[] {
-  const points: YieldDataPoint[] = [];
-  const now = Date.now();
-  const interval = (hours * 3600 * 1000) / 50; // 50 data points
-
-  for (let i = 50; i >= 0; i--) {
-    const ts = now - i * interval;
-    const baseYield = 4.5 + Math.sin(i * 0.2) * 0.5;
-    points.push({
-      timestamp: ts,
-      vaultYield: baseYield + Math.random() * 0.3,
-      aaveRate: 3.8 + Math.sin(i * 0.15) * 0.4 + Math.random() * 0.2,
-      morphoRate: 4.2 + Math.cos(i * 0.18) * 0.3 + Math.random() * 0.2,
-    });
-  }
-  return points;
-}
-
+/**
+ * Reads real yield history from YieldReportReceived events
+ *
+ * NOTE: This requires CRE workflows to be deployed and active.
+ * Until yield-scanner workflow is running, this will return empty data.
+ *
+ * To deploy workflows:
+ * 1. Request Early Access (available Feb 14+)
+ * 2. Run: cre workflow deploy yield-scanner --target staging-settings
+ */
 export function useYieldHistory(timeRange: "1H" | "6H" | "24H" | "7D" = "24H") {
-  const [data, setData] = useState<YieldDataPoint[]>([]);
+  const vaultContract = getVaultContract();
 
-  useEffect(() => {
-    const hours =
-      timeRange === "1H" ? 1 : timeRange === "6H" ? 6 : timeRange === "24H" ? 24 : 168;
-    setData(generateMockData(hours));
-  }, [timeRange]);
+  // Calculate block range based on timeRange
+  const hoursAgo =
+    timeRange === "1H" ? 1
+    : timeRange === "6H" ? 6
+    : timeRange === "24H" ? 24
+    : 168;
 
-  return { data };
+  // Sepolia: ~12 second blocks
+  const blocksAgo = Math.floor((hoursAgo * 3600) / 12);
+
+  // Read YieldReportReceived events
+  const { data: events, isLoading } = useContractEvents({
+    contract: vaultContract,
+    events: [
+      {
+        type: "event",
+        name: "YieldReportReceived",
+        inputs: [
+          { name: "reportKey", type: "bytes32", indexed: true },
+          { name: "data", type: "bytes", indexed: false },
+        ],
+      },
+    ],
+    blockRange: blocksAgo,
+  });
+
+  // Transform events to chart data
+  const data: YieldDataPoint[] = events?.map((event) => {
+    // Decode report data: 0x01 + abi.encode(uint256 confidence)
+    // For now, return empty structure until events exist
+    return {
+      timestamp: Number(event.blockTimestamp) * 1000,
+      vaultYield: 0, // Extract from event.data when available
+      aaveRate: 0,   // Requires external API
+      morphoRate: 0, // Requires external API
+    };
+  }) || [];
+
+  return {
+    data,
+    isLoading,
+    isEmpty: data.length === 0,
+  };
 }
