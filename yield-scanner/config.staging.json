@@ -1,10 +1,10 @@
 {
-  "groqModel": "llama-3.3-70b-versatile",
+  "groqModel": "moonshotai/kimi-k2-instruct-0905",
   "schedule": "0 */5 * * * *",
   "rebalanceThresholdBps": 100,
   "evms": [
     {
-      "vaultAddress": "0x0000000000000000000000000000000000000000",
+      "vaultAddress": "0x92Bf1f6a56A39F64bfD86e53a4D40c1F35D3965a",
       "chainSelectorName": "ethereum-testnet-sepolia",
       "gasLimit": "500000"
     }

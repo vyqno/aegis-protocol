@@ -1,9 +1,9 @@
 {
-  "groqModel": "llama-3.3-70b-versatile",
+  "groqModel": "moonshotai/kimi-k2-instruct-0905",
   "evms": [
     {
-      "vaultAddress": "0x0000000000000000000000000000000000000000",
-      "riskRegistryAddress": "0x0000000000000000000000000000000000000000",
+      "vaultAddress": "0x92Bf1f6a56A39F64bfD86e53a4D40c1F35D3965a",
+      "riskRegistryAddress": "0x9CA2221e10F55d5CCae3b6ca2d749A360D9ba82c",
       "chainSelectorName": "ethereum-testnet-sepolia",
       "gasLimit": "500000"
     }

@@ -1,8 +1,8 @@
 {
   "evms": [
     {
-      "vaultAddress": "0x0000000000000000000000000000000000000000",
-      "worldIdGateAddress": "0x0000000000000000000000000000000000000000",
+      "vaultAddress": "0x92Bf1f6a56A39F64bfD86e53a4D40c1F35D3965a",
+      "worldIdGateAddress": "0x98cdd8449Fb1022A7015F0332F95778bc85da7F1",
       "chainSelectorName": "ethereum-testnet-sepolia",
       "gasLimit": "500000"
     }
