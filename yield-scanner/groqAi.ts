@@ -81,7 +81,7 @@ export function askGroq(
   const result = httpClient
     .sendRequest(
       runtime,
-      buildGroqRequest(vaultData, apiKey, runtime.config.groqModel),
+      buildGroqRequest(vaultData, apiKey, runtime.config.groqModel, runtime),
       consensusIdenticalAggregation<YieldAnalysis>(),
     )(runtime.config)
     .result();
@@ -103,6 +103,7 @@ function buildGroqRequest(
   vaultData: string,
   apiKey: string,
   model: string,
+  runtime: Runtime<Config>,
 ): (
   sendRequester: HTTPSendRequester,
   config: Config,
@@ -149,8 +150,9 @@ function buildGroqRequest(
 
     // Validate response using ok() helper (LOW-001)
     if (!ok(resp)) {
-      const bodyText = new TextDecoder().decode(resp.body);
-      throw new Error(`Groq API error ${resp.statusCode}: ${bodyText}`);
+      const errBody = new TextDecoder().decode(resp.body);
+      runtime.log(`[Groq] API error ${resp.statusCode}: ${errBody.slice(0, 200)}`);
+      throw new Error(`Groq API error ${resp.statusCode}: ${errBody.slice(0, 200)}`);
     }
 
     const bodyText = new TextDecoder().decode(resp.body);
@@ -159,11 +161,24 @@ function buildGroqRequest(
     // Extract AI content
     const content = apiResponse.choices?.[0]?.message?.content;
     if (!content) {
+      runtime.log("[Groq] Empty response from API");
       throw new Error("Groq API returned empty response");
     }
 
+    runtime.log(`[Groq] Raw AI response: ${content.slice(0, 300)}`);
+
+    // Strip <think> tags and markdown fences (common with reasoning models)
+    let cleaned = content;
+    cleaned = cleaned.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+    cleaned = cleaned.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+    const firstBrace = cleaned.indexOf("{");
+    const lastBrace = cleaned.lastIndexOf("}");
+    if (firstBrace !== -1 && lastBrace > firstBrace) {
+      cleaned = cleaned.slice(firstBrace, lastBrace + 1);
+    }
+
     // Parse structured JSON response
-    const parsed = JSON.parse(content) as YieldAnalysis;
+    const parsed = JSON.parse(cleaned) as YieldAnalysis;
 
     // Validate action is known
     if (parsed.action !== "REBALANCE" && parsed.action !== "HOLD") {
